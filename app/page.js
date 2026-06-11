@@ -1,4 +1,5 @@
 "use client"
+import Link from "next/link";
 import { useEffect, useState } from "react";
 
 export default function Home() {
@@ -11,24 +12,16 @@ export default function Home() {
     async function loadProducts() {
       try {
         const res = await fetch("/api/products");
-        let data = null;
-        try {
-          data = await res.json();
-        } catch (jsonErr) {
-          // Not JSON response
-        }
-        if (!res.ok) {
-          throw new Error(data?.details || data?.error || `Failed to fetch products: ${res.status}`);
-        }
+        const data = await res.json();
+        if (!res.ok) throw new Error(data?.error || "Failed to load products");
         setProducts(data);
       } catch (err) {
         console.error("Error fetching products:", err);
-        setError(err.message || "Unable to load products. Please try again later.");
+        setError(err.message || "Unable to load products.");
       } finally {
         setLoading(false);
       }
     }
-
     loadProducts();
   }, []);
 
@@ -38,27 +31,19 @@ export default function Home() {
     try {
       const res = await fetch("/ai-search", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ query }),
       });
-      let data = null;
-      try {
-        data = await res.json();
-      } catch (jsonErr) {
-        // Response was not JSON
-      }
-      if (!res.ok) {
-        throw new Error(data?.details || data?.error || `Search failed: ${res.status}`);
-      }
+      const data = await res.json();
+      if (!res.ok) throw new Error(data?.error || "Search failed");
+
       if (Array.isArray(data)) {
         setProducts(data);
       } else {
-        throw new Error("Invalid response format received from search");
+        throw new Error("Invalid search response format");
       }
     } catch (err) {
-      console.error("Error searching products:", err);
+      console.error("Search error:", err);
       setError(err.message || "Failed to search products.");
     } finally {
       setLoading(false);
@@ -76,7 +61,7 @@ export default function Home() {
             All Products
           </h1>
           <p className="mx-auto mt-3 max-w-2xl text-base text-slate-600">
-            Browse every item from the database rendered with Tailwind CSS.
+            A seamless shopping experience, powered by high-performance architecture.
           </p>
 
           <input value={query} onChange={(e) => setQuery(e.target.value)} type="text" placeholder="Search products..." className="border border-slate-300 bg-white py-2 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500"></input>
@@ -119,9 +104,12 @@ export default function Home() {
                     <span className="text-lg font-semibold text-slate-900">
                       ${product.price?.toFixed(2)}
                     </span>
-                    <button className="rounded-full bg-slate-900 px-4 py-2 text-sm font-medium text-white transition hover:bg-slate-700">
+                    <Link
+                      href={`/product/${product._id ?? product.id}`}
+                      className="rounded-full bg-slate-900 px-4 py-2 text-sm font-medium text-white transition hover:bg-slate-700"
+                    >
                       View
-                    </button>
+                    </Link>
                   </div>
                 </div>
               </article>
