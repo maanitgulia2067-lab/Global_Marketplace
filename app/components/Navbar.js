@@ -6,7 +6,7 @@ export default function Navbar() {
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
         <div>
           <Link href="/" className="text-xl font-semibold text-slate-900">
-            IntellijCart
+            Global Marketplace
           </Link>
           <p className="text-xs text-slate-500">A world market for buyers around the globe.</p>
         </div>
