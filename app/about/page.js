@@ -112,7 +112,7 @@ export default function AboutPage() {
             
             <div className="rounded-3xl border border-slate-200 bg-white p-8 shadow-sm text-center">
               <img
-                src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&q=80"
+                src="https://media.licdn.com/dms/image/v2/D5603AQEusQ6V1u2Grw/profile-displayphoto-scale_200_200/B56Z4FdA0rGsAc-/0/1778207953232?e=2147483647&v=beta&t=VeMlmly5zzzUKJcgISysvZdFTkKER5_KdpArJ2vW1sI"
                 alt="Maanit Gulia"
                 className="w-32 h-32 mx-auto rounded-full object-cover"
               />
